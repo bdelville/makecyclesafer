@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+
+mongoose.connect('mongodb://cyclesafer:cyclesafer123@ds139954.mlab.com:39954/makecyclesafer')
 
 app.use(morgan("dev")); //console logs
 app.use(bodyParser.urlencoded({extended:false}));
@@ -19,9 +23,8 @@ app.use((req,res,next) => {
     next();
 });
 
-const incidentReportRoutes = require("./api/routes/incidentReport");
-app.use("/api/incident", incidentReportRoutes);
-
+const incidentReportRoutes = require("./api/routes/incidents");
+app.use("/api/incidents", incidentReportRoutes);
 
 //404 not found
 app.use((req,res,next) => {
