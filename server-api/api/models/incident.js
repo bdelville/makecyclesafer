@@ -17,7 +17,8 @@ const incidentSchema = mongoose.Schema({
   },
   accident: {
     description: String,
-    url: String,
+    imageUrl: String,
+    imageData: String,
   },
 });
 
