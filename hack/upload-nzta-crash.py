@@ -13,17 +13,19 @@ headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 #0 X,Y,OBJECTID,crashYear,crashFinancialYear,crashSeverity,fatalCount,seriousInjuryCount,minorInjuryCount,multiVehicle,
 #10 holiday,regionDesc,tlaID,tlaName,areaUnitID,meshblockID,easting,northing,crashLocation1,crashLocation2,
 #20 outdatedLocationDescription,crashRSRP,intersection,junctionType,cornerRoadSideRoad,crashDirectionDescription,crashDistance,crashRPDirectionDescription,directionRoleDescription,
-#30 crashRPDescription,crashSHDescription,crashRPSH,crashRPNewsDescription,intersectionMidblock,flatHill,roadCharacter,roadCurvature,roadLane,
-#40 roadMarkings,roadSurface,roadWet,numberOfLanes,trafficControl,speedLimit,advisorySpeed,temporarySpeedLimit,urban,
-#50 darkLight,light,streetLight,weatherA,weatherB,postOrPole,guardRail,waterRiver,cliffBank,
-#60 ditch,fence,tree,kerb,trafficIsland,parkedVehicle,trafficSign,vehicle,bridge,
-#70 overBank,animals,strayAnimal,objectThrownOrDropped,debris,houseBuilding,train,phoneBoxEtc,slipFlood,
-#80 roadworks
+#30 crashRPDescription,crashSHDescription,crashRPSH,crashRPNewsDescription,intersectionMidblock,flatHill,roadCharacter,roadCurvature,roadLane,roadMarkings,
+#40 roadSurface,roadWet,numberOfLanes,trafficControl,speedLimit,advisorySpeed,temporarySpeedLimit,urban,darkLight,light,
+#50 streetLight,weatherA,weatherB,postOrPole,guardRail,waterRiver,cliffBank,ditch,fence,tree,
+#60 kerb,trafficIsland,parkedVehicle,trafficSign,vehicle,bridge,overBank,animals,strayAnimal,objectThrownOrDropped,
+#70 debris,houseBuilding,train,phoneBoxEtc,slipFlood,roadworks
 
-def isCycling(lineCsv) :
+# cyclist only, cyclist and pedestrian, cyclist and motor vehicle
+def getCyclingType(lineCsv) :
     # print(row[9])
-    if "ycli" in row[9]:
-        return True
+    if "Cyclists only" in row[9]:
+        return 'CyclistOnly'
+    if "Vehicle(s)+Cyclist(s)" in row[9]:
+        return 'CyclistVehicle'
     return False
 
 def description(row) :
@@ -32,15 +34,15 @@ def description(row) :
     return descr
 
 def weather(row) :
-    return row[53] + ', ' + row[54]
+    return row[51] + ', ' + row[52]
 
 def descriptionLoc(row) :
-    return ''
+    return row[18] + ', ' + row[19]
 
 def csvToJsonApi(row):
     data = {
-        "location": {"latitude": float(row[0]), "longitude": float(row[1])},
-        "accident": {'description': description(row)}
+        "location": {"latitude": float(row[0]), "longitude": float(row[1]), "description": descriptionLoc(row)},
+        "accident": {'description': description(row)},
     }
     data['source'] = "NZTA"
     data['_id'] = row[2]

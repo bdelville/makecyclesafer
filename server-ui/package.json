@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A dev meetup applicatin built with Vue + Vuetify + Firebase",
   "author": "Maximilian Schwarzmüller <business@academind.com>",
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -59,11 +63,8 @@
     "webpack": "^2.3.3",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0",
-    "webpack-merge": "^4.1.0"
-  },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
+    "webpack-merge": "^4.1.0",
+    "chalk":"2.3.2"
   },
   "browserslist": [
     "> 1%",

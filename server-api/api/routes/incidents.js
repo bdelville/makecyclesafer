@@ -15,7 +15,6 @@ cloudinary.config({
   api_secret: SECRETS.CLOUDINARY,
 });
 
-
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -55,7 +54,7 @@ router.post('/', async (req, res, next) => {
     const result = await Incident.findOneAndUpdate(
       {_id: incident._id},
       incident,
-      {upsert: true, new: true}
+      {upsert: true, new: true, runValidators: true}
     );
 
     console.log(result);
