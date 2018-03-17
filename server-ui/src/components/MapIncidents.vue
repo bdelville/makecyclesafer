@@ -8,7 +8,7 @@
   const apiUrl = 'http://localhost:8081/api/incidents'
 
   let mymap
-  // let crashIcon
+  let accidentIcon, hazardIcon, thumbIcon
 
   export default {
     name: 'map-incidents',
@@ -19,15 +19,33 @@
       // Init once we get L
       auckland = window.L.latLng(-36.84968761883941, 174.75575570185242)
 
-      // const crashIcon = window.L.icon({
-      //   iconUrl: 'leaf-green.png',
-      //   // shadowUrl: 'leaf-shadow.png',
-      //   iconSize: [38, 95], // size of the icon
-      //   shadowSize: [50, 64], // size of the shadow
-      //   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-      //   shadowAnchor: [4, 62],  // the same for the shadow
-      //   popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-      // })
+      accidentIcon = window.L.icon({
+        iconUrl: '../../static/accident.png',
+        // shadowUrl: 'leaf-shadow.png',
+        iconSize: [35, 35], // size of the icon
+        shadowSize: [40, 40], // size of the shadow
+        iconAnchor: [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+      })
+      hazardIcon = window.L.icon({
+        iconUrl: '../../static/hazard.png',
+        // shadowUrl: 'leaf-shadow.png',
+        iconSize: [35, 35], // size of the icon
+        shadowSize: [40, 40], // size of the shadow
+        iconAnchor: [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+      })
+      thumbIcon = window.L.icon({
+        iconUrl: '../../static/thumbs.png',
+        // shadowUrl: 'leaf-shadow.png',
+        iconSize: [35, 35], // size of the icon
+        shadowSize: [40, 40], // size of the shadow
+        iconAnchor: [18, 18], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+      })
 
       initMap()
     }
@@ -41,8 +59,24 @@
       .then(function (response) {
         // console.log(response)
         for (let data of response.data) {
-          console.log(`Add marker ${data.location.latitude}, ${data.location.longitude}`)
-          window.L.marker([data.location.latitude, data.location.longitude]).addTo(mymap)
+          // console.log(`Add marker ${data}`)
+          let icon = accidentIcon
+          switch (data.reportType) {
+            case 'accident' :
+              icon = accidentIcon
+              break
+            case 'hazard' :
+              icon = hazardIcon
+              break
+            case 'thumbup' :
+              icon = thumbIcon
+              break
+          }
+
+          const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon}).addTo(mymap)
+          const year = data.whenOccurred.substring(0, 4)
+          const incident = data.incident ? `${data.incident.type}` : ''
+          marker.bindPopup(`<b>${data.reportType}</b> occurred in ${year}<br/>${incident}</br>Source: ${data.source}`)
         }
       })
       .catch(function (error) {
@@ -65,5 +99,5 @@
 </script>
 
 <style scoped>
-  #incident-map { height: 400px; }
+  #incident-map { height: 600px; }
 </style>
