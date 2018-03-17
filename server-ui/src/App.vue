@@ -45,8 +45,9 @@
       return {
         sideNav: false,
         menuItems: [
-          {icon: 'supervisor_account', title: 'View Incidents', link: '/Incidents'},
-          {icon: 'room', title: 'Report Incident', link: '/Incident/new'}
+          {icon: 'supervisor_account', title: 'Incidents', link: '/Incidents'},
+          {icon: 'block', title: 'Hazards', link: '/Hazards'},
+          {icon: 'room', title: 'Report', link: '/Incident/new'}
         ]
       }
     }
