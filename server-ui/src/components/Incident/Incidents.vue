@@ -20,7 +20,7 @@
                 </v-card-title>
                 <v-card-actions>
                   <v-btn flat :to="'/incidents/' + meetup.id">
-                    <v-icon left light>arrow_forward</v-icon>
+                    <img :src="images.incident"  alt="incident" width='24px' height='24px' >
                     View Incident
                   </v-btn>
                 </v-card-actions>
@@ -35,6 +35,15 @@
 
 <script>
   export default {
+    data () {
+      return {
+        images: {
+          incident: require('../../assets/accident.png'),
+          hazard: require('../../assets/hazard.png'),
+          nearmisses: require('../../assets/thumbs.png')
+        }
+      }
+    },
     computed: {
       meetups () {
         return this.$store.getters.loadedMeetups

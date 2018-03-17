@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container >
     <v-layout row wrap class="mt-2">
       <v-flex xs12>
         <map-incidents></map-incidents>
