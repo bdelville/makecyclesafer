@@ -14,7 +14,7 @@
           <span>incidents</span>
       </v-avatar>
 
-      </v-flex>,
+      </v-flex>
       <v-flex xs4 sm2 md2>
         <v-avatar
         size="24px"
@@ -25,9 +25,9 @@
           :src="images.nearmisses"
           alt="nearmisses"
           >
-          <span>near-misses</span>
+          <span>feedbacks</span>
       </v-avatar>
-      </v-flex>,
+      </v-flex>
       <v-flex xs3 sm2 md1>
         <v-avatar
         size="24px"

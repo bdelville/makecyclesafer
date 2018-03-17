@@ -19,7 +19,7 @@
         class="hidden-sm-and-up "></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link to="/" tag="a" style="cursor: pointer">
-        <img :src="images.logo" width="60px" height="60px" />
+        <img :src="images.logo" width="90px" height="60px" />
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>

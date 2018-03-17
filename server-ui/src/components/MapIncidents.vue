@@ -46,11 +46,11 @@
         popupAnchor: [0, -20]
       })
       nztaIcon = window.L.icon({
-        iconUrl: '../../static/thumbs.png',
+        iconUrl: '../../static/nzta.png',
         // shadowUrl: 'leaf-shadow.png',
-        iconSize: [35, 35],
+        iconSize: [15, 15],
         shadowSize: [40, 40],
-        iconAnchor: [18, 18],
+        iconAnchor: [10, 10],
         shadowAnchor: [4, 62],
         popupAnchor: [0, -20]
       })
@@ -67,30 +67,39 @@
       .then(function (response) {
         // console.log(response)
         markerGroup.clearLayers()
+        let zIndexOffset = 1
         for (let data of response.data) {
           // console.log(`Add marker ${data}`)
           let icon = accidentIcon
+          let subtitle
 
           if (data.source === 'NZTA') {
             icon = nztaIcon
+            subtitle = `${data.incident.type}`
           } else {
             switch (data.reportType) {
               case 'accident' :
+              case 'incident':
                 icon = accidentIcon
+                subtitle = `${data.incident.type}`
+                zIndexOffset = 700000
                 break
               case 'hazard' :
                 icon = hazardIcon
+                subtitle = `${data.hazard.type}`
+                zIndexOffset = 700000
                 break
               case 'thumbup' :
                 icon = thumbIcon
+                subtitle = `${data.thumbup.description}`
+                zIndexOffset = 700000
                 break
             }
           }
 
-          const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon}).addTo(markerGroup)
+          const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon, zIndexOffset}).addTo(markerGroup)
           const year = data.whenOccurred.substring(0, 4)
-          const incident = data.incident ? `${data.incident.type}` : ''
-          marker.bindPopup(`<b>${data.reportType}</b> occurred in ${year}<br/>${incident}</br>Source: ${data.source}`)
+          marker.bindPopup(`<b>${data.reportType}</b> occurred in ${year}<br/>${subtitle}</br>Source: ${data.source}`)
         }
       })
       .catch(function (error) {
