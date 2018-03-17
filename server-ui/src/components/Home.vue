@@ -10,7 +10,7 @@
     </v-layout>
     <v-layout row wrap class="mt-2">
       <v-flex xs12>
-          <p> Incidents map goes here</p>
+        <map-incidents></map-incidents>
       </v-flex>
     </v-layout>
     <v-layout row wrap  class="mt-2">
@@ -21,7 +21,10 @@
   </v-container>
 </template>
 
+
 <script>
+  import MapIncidents from './MapIncidents.vue'
+
   export default {
     computed: {
       meetups () {
@@ -32,6 +35,9 @@
       onLoadMeetup (id) {
         this.$router.push('/meetups/' + id)
       }
+    },
+    components: {
+      MapIncidents
     }
   }
 </script>

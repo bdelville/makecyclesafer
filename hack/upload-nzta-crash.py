@@ -19,10 +19,13 @@ headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 #60 kerb,trafficIsland,parkedVehicle,trafficSign,vehicle,bridge,overBank,animals,strayAnimal,objectThrownOrDropped,
 #70 debris,houseBuilding,train,phoneBoxEtc,slipFlood,roadworks
 
-def isCycling(lineCsv) :
+# cyclist only, cyclist and pedestrian, cyclist and motor vehicle
+def getCyclingType(lineCsv) :
     # print(row[9])
-    if "ycli" in row[9]:
-        return True
+    if "Cyclists only" in row[9]:
+        return 'CyclistOnly'
+    if "Vehicle(s)+Cyclist(s)" in row[9]:
+        return 'CyclistVehicle'
     return False
 
 def description(row) :
