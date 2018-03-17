@@ -1,11 +1,11 @@
 {
-  "name": "yt-devmeetup-vue",
+  "name": "makecyclesSafer",
   "version": "1.0.0",
-  "description": "A dev meetup applicatin built with Vue + Vuetify + Firebase",
-  "author": "Maximilian Schwarzmüller <business@academind.com>",
+  "description": "A dev applicatin built with Vue + Vuetify",
+  "author": "",
   "engines": {
-    "node": "v9.3.0",
-    "npm": "5.6.0"
+    "node": "^v9.3.0",
+    "npm": "^5.6.0"
   },
   "private": true,
   "scripts": {
@@ -15,11 +15,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "vue": "^2.4.1",
     "vue-router": "^2.3.1",
     "vuetify": "^0.14.0",
-    "vuex": "^2.3.1",
-    "axios": "0.18.0"
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
