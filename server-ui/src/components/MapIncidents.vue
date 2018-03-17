@@ -4,10 +4,11 @@
 
 <script>
   import axios from 'axios'
+  import debounce from 'lodash.debounce'
   let auckland
   const apiUrl = 'http://localhost:8081/api/incidents'
 
-  let mymap
+  let mymap, markerGroup
   let accidentIcon, hazardIcon, thumbIcon, nztaIcon
 
   export default {
@@ -58,13 +59,14 @@
     }
   }
 
-  function loadData () {
-    const center = auckland
+  const loadData = debounce(function () {
+    const center = mymap.getCenter()
     const maxDistance = 10000
     axios
       .get(`${apiUrl}/around?latitude=${center.lat}&longitude=${center.lng}&maxDistance=${maxDistance}`)
       .then(function (response) {
         // console.log(response)
+        markerGroup.clearLayers()
         for (let data of response.data) {
           // console.log(`Add marker ${data}`)
           let icon = accidentIcon
@@ -85,7 +87,7 @@
             }
           }
 
-          const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon}).addTo(mymap)
+          const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon}).addTo(markerGroup)
           const year = data.whenOccurred.substring(0, 4)
           const incident = data.incident ? `${data.incident.type}` : ''
           marker.bindPopup(`<b>${data.reportType}</b> occurred in ${year}<br/>${incident}</br>Source: ${data.source}`)
@@ -94,11 +96,12 @@
       .catch(function (error) {
         console.log(error)
       })
-  }
+  }, 1500, { leading: true, trailing: true })
 
   function initMap () {
     mymap = window.L.map('incident-map')
     mymap.setView(auckland, 13)
+    markerGroup = window.L.layerGroup().addTo(mymap)
     mymap.whenReady(loadData)
 
     const openCycleMap = window.L.tileLayer('https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}', {
@@ -107,6 +110,11 @@
       maxZoom: 22
     })
     openCycleMap.addTo(mymap)
+
+    mymap.on('moveend', function (event) {
+      console.log('moveend')
+      loadData()
+    })
   }
 </script>
 
