@@ -11,6 +11,8 @@ app.use(morgan("dev")); //console logs
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+app.use('/public', express.static('./public'));
+
 app.use((req,res,next) => {
     res.header('Access-Control-Allow-Origin', '*'); // allow CORS
     res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,Authorization');
