@@ -1,13 +1,5 @@
 <template>
   <v-container>
-    <v-layout row wrap>
-      <v-flex xs12 sm6 class="text-xs-center text-sm-right">
-        <v-btn large router to="/incidents" class="info">Explore Incidents</v-btn>
-      </v-flex>
-      <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large router to="/incident/new" class="info">Report</v-btn>
-      </v-flex>
-    </v-layout>
     <v-layout row wrap class="mt-2">
       <v-flex xs12>
         <map-incidents></map-incidents>

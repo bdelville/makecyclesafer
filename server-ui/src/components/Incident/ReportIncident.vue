@@ -25,6 +25,9 @@
                 label="Location"
                 id="location"
                 v-model="location"
+                ref="autocomplete"
+                class="search-location"
+                onfocus="value = ''"
                 required></v-text-field>
             </v-flex>
           </v-layout>
@@ -134,3 +137,18 @@
     }
   }
 </script>
+<style scoped>
+  .search-location {
+      display: block;
+      width: 60vw;
+      margin: 0 auto;
+      margin-top: 5vw;
+      font-size: 20px;
+      font-weight: 400;
+      outline: none;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 10px;
+  }
+</style>

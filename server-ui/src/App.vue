@@ -46,8 +46,7 @@
         sideNav: false,
         menuItems: [
           {icon: 'supervisor_account', title: 'Incidents', link: '/Incidents'},
-          {icon: 'block', title: 'Hazards', link: '/Hazards'},
-          {icon: 'room', title: 'Report', link: '/Incident/new'}
+          {icon: 'block', title: 'Hazards', link: '/Hazards'}
         ]
       }
     }
