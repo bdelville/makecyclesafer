@@ -6,9 +6,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap  class="mt-2">
-      <v-flex xs12 class="text-xs-center">
-        <p>View cyclists incidents!</p>
-      </v-flex>
+      <side-card> </side-card>
     </v-layout>
   </v-container>
 </template>
@@ -16,6 +14,7 @@
 
 <script>
   import MapIncidents from './MapIncidents.vue'
+  import SideCard from './SideCard.vue'
 
   export default {
     computed: {
@@ -25,11 +24,12 @@
     },
     methods: {
       onLoadMeetup (id) {
-        this.$router.push('/meetups/' + id)
+        this.$router.push('/incidents/' + id)
       }
     },
     components: {
-      MapIncidents
+      MapIncidents,
+      SideCard
     }
   }
 </script>

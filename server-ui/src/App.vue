@@ -7,7 +7,7 @@
           :key="item.title"
           :to="item.link">
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+             <img :src="item.icon" width="24px" height="24px" />
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
@@ -18,7 +18,9 @@
         @click.stop="sideNav = !sideNav"
         class="hidden-sm-and-up "></v-toolbar-side-icon>
       <v-toolbar-title>
-        <router-link to="/" tag="span" style="cursor: pointer">Incidents</router-link>
+        <router-link to="/" tag="a" style="cursor: pointer">
+        <img :src="images.logo" width="60px" height="60px" />
+        </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
@@ -27,7 +29,7 @@
           v-for="item in menuItems"
           :key="item.title"
           :to="item.link">
-          <v-icon left dark>{{ item.icon }}</v-icon>
+          <img left :src="item.icon" width="24px" height="24px" />
           {{ item.title }}
 
         </v-btn>
@@ -44,9 +46,12 @@
     data () {
       return {
         sideNav: false,
+        images: {
+          logo: require('./assets/logo.png')
+        },
         menuItems: [
-          {icon: 'supervisor_account', title: 'Incidents', link: '/Incidents'},
-          {icon: 'block', title: 'Hazards', link: '/Hazards'}
+          {icon: require('./assets/accident.png'), title: 'Incidents', link: '/Incidents'},
+          {icon: require('./assets/hazard.png'), title: 'Hazards', link: '/Hazards'}
         ]
       }
     }
