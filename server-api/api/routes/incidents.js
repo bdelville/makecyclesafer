@@ -6,6 +6,8 @@ const cloudinary = require('cloudinary');
 const Incident = require('../models/incident');
 const SECRETS = require('../../secret');
 
+const SOURCE_USER = "cycleSafeUsers";
+
 // Configurations - ask secret.js file from developers
 cloudinary.config({
   cloud_name: 'cyclesafe',
@@ -32,7 +34,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const incident = Object.assign(
-      { _id: uuidv1() },
+      { _id: uuidv1(), source: SOURCE_USER },
       req.body,
     );
 
@@ -49,7 +51,13 @@ router.post('/', async (req, res, next) => {
       incident.accident.imageUrl = cloudImage.url;
     }
 
-    const result = await new Incident(incident).save();
+    // const result = await new Incident(incident).save();
+    const result = await Incident.findOneAndUpdate(
+      {_id: incident._id},
+      incident,
+      {upsert: true, new: true}
+    );
+
     console.log(result);
     res.status(201).json({
       message: 'Handling POST requests to /incident',

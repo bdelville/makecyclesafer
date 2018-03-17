@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const incidentSchema = mongoose.Schema({
   _id: { type: String, required: true },
+  source: String,
   name: String,
   whenOccurred: Date,
   cyclist: {
@@ -14,6 +15,7 @@ const incidentSchema = mongoose.Schema({
     longitude: Number,
     address: String,
     routeId: String, // OpenStreetMap route id ?
+    description: String,
   },
   accident: {
     description: String,
