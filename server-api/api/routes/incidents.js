@@ -15,7 +15,6 @@ cloudinary.config({
   api_secret: SECRETS.CLOUDINARY,
 });
 
-
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
