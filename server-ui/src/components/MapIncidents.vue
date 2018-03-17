@@ -71,7 +71,6 @@
 
           if (data.source === 'NZTA') {
             icon = nztaIcon
-            break
           } else {
             switch (data.reportType) {
               case 'accident' :
