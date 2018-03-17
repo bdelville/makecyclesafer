@@ -19,7 +19,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const incidents = await Incident.find({}, {limit: 100}).exec();
+    const incidents = await Incident.find({}).limit(100).exec();
     res.status(200).json(incidents);
   }
   catch (err) {
@@ -39,12 +39,12 @@ router.get('/around', async (req, res, next) => {
         $near: {
           $geometry: {
             type: "Point",
-            coordinates: [longitude, latitude]
+            coordinates: [Number(longitude), Number(latitude)]
           },
-          $maxDistance: maxDistance,
+          $maxDistance: Number(maxDistance),
         }
       }
-    }, {limit: 100}).exec();
+    }).limit(100).exec();
     res.status(200).json(incidents);
   }
   catch (err) {
