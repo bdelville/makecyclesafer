@@ -5,7 +5,7 @@
         <v-btn large router to="/incidents" class="info">Explore Incidents</v-btn>
       </v-flex>
       <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-        <v-btn large router to="/incident/new" class="info">Report incident</v-btn>
+        <v-btn large router to="/incident/new" class="info">Report</v-btn>
       </v-flex>
     </v-layout>
     <v-layout row wrap class="mt-2">
