@@ -19,7 +19,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const incidents = await Incident.find().exec();
+    const incidents = await Incident.find({}).limit(100).exec();
     res.status(200).json(incidents);
   }
   catch (err) {
@@ -30,12 +30,39 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+
+router.get('/around', async (req, res, next) => {
+  try {
+    const {latitude, longitude, maxDistance} = {...req.query};
+    const incidents = await Incident.find({
+      locationPair: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [Number(longitude), Number(latitude)]
+          },
+          $maxDistance: Number(maxDistance),
+        }
+      }
+    }).limit(100).exec();
+    res.status(200).json(incidents);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  }
+});
+
+
 router.post('/', async (req, res, next) => {
   try {
     const incident = Object.assign(
       { _id: uuidv1(), source: SOURCE_USER },
       req.body,
     );
+    incident.locationPair = { type : "Point", coordinates : [incident.location.longitude, incident.location.latitude] };
 
     // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==
     if (incident.accident && incident.accident.imageData) {
