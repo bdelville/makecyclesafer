@@ -7,7 +7,7 @@ import csv
 # Parse a file from Crash_Analysis_System_CAS_data NZTA
 
 dataPath = "../../Crash_Analysis_System_CAS_data.csv"
-uriPath = "http://localhost:3000/api/incidents"
+uriPath = "http://localhost:8081/api/incidents"
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 #0 X,Y,OBJECTID,crashYear,crashFinancialYear,crashSeverity,fatalCount,seriousInjuryCount,minorInjuryCount,multiVehicle,
@@ -20,13 +20,20 @@ headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 #70 debris,houseBuilding,train,phoneBoxEtc,slipFlood,roadworks
 
 # cyclist only, cyclist and pedestrian, cyclist and motor vehicle
-def getCyclingType(lineCsv) :
-    # print(row[9])
-    if "Cyclists only" in row[9]:
-        return 'CyclistOnly'
-    if "Vehicle(s)+Cyclist(s)" in row[9]:
-        return 'CyclistVehicle'
+
+def filter(row) :
+    if getCyclingType(row) and row[3] == '2017':
+        return True
     return False
+
+def getCyclingType(row) :
+    if "Cyclists only" in row[9]:
+        return 'cyclistOnly'
+    if "Vehicle(s)+Cyclist(s)" in row[9]:
+        return 'cyclistVehicle'
+    if "Cyclist(s)+Pedestrian(s)" in row[9]:
+        return 'cyclistPedestrian'
+    return None
 
 def description(row) :
     descr = row[6] + ' fatal, ' + row[7] + ' seriousInjury, ' + row[8] + ' minorInjury\n'
@@ -34,21 +41,25 @@ def description(row) :
     return descr
 
 def weather(row) :
-    return row[51] + ', ' + row[52]
+    if 'Rain' in row[51] or 'Rain' in row[52]:
+        return 'rainy'
+    if 'Sun' in row[51] or 'Sun' in row[52]:
+        return 'sunny'
+    return ''
 
 def descriptionLoc(row) :
     return row[18] + ', ' + row[19]
 
 def csvToJsonApi(row):
     data = {
-        "location": {"latitude": float(row[0]), "longitude": float(row[1]), "description": descriptionLoc(row)},
-        "accident": {'description': description(row)},
+        '_id': row[2],
+        'source': 'NZTA',
+        'reportType': 'incident',
+        'whenOccurred': row[3] + '-01-01T00:00:00.000+1200',
+        'weather': weather(row),
+        'location': {"latitude": float(row[1]), "longitude": float(row[0]), "description": descriptionLoc(row)},
+        'incident': {'type' : getCyclingType(row), 'criticality': 'crash', 'description': description(row)}
     }
-    data['source'] = "NZTA"
-    data['_id'] = row[2]
-    data['whenOccurred'] = row[3] + '-01-01T00:00:00.000+1200'
-    data['weather'] = weather(row)
-    data['type'] = 'crash'
     return data # json.dumps(data);
 
 def postData(dataJson):
@@ -70,7 +81,7 @@ try:
         for row in reader:
             totalCount = totalCount + 1
             try:
-                if not isCycling(row): continue
+                if not filter(row): continue
                 jsonData = csvToJsonApi(row)
                 postData(jsonData)
                 count = count + 1

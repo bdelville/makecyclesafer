@@ -14,6 +14,7 @@ const incidentSchema = mongoose.Schema({
     type: String,
     validate: {validator: validateInList(Constants.REPORT_TYPES), message: '{VALUE} is not valid'}
   },
+  locationPair: Object,
   location: {
     latitude: Number,
     longitude: Number,
@@ -51,5 +52,10 @@ const incidentSchema = mongoose.Schema({
     description: String,
   },
 });
+
+incidentSchema.index(
+  { locationPair : "2dsphere" },
+  { name: 'location' }
+);
 
 module.exports = mongoose.model('Incident', incidentSchema);
