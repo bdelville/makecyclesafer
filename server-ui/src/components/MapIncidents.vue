@@ -8,7 +8,7 @@
   const apiUrl = 'http://localhost:8081/api/incidents'
 
   let mymap
-  let accidentIcon, hazardIcon, thumbIcon
+  let accidentIcon, hazardIcon, thumbIcon, nztaIcon
 
   export default {
     name: 'map-incidents',
@@ -21,30 +21,37 @@
 
       accidentIcon = window.L.icon({
         iconUrl: '../../static/accident.png',
-        // shadowUrl: 'leaf-shadow.png',
-        iconSize: [35, 35], // size of the icon
-        shadowSize: [40, 40], // size of the shadow
-        iconAnchor: [18, 18], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+        iconSize: [35, 35],
+        shadowSize: [40, 40],
+        iconAnchor: [18, 18],
+        shadowAnchor: [4, 62],
+        popupAnchor: [0, -20]
       })
       hazardIcon = window.L.icon({
         iconUrl: '../../static/hazard.png',
-        // shadowUrl: 'leaf-shadow.png',
-        iconSize: [35, 35], // size of the icon
-        shadowSize: [40, 40], // size of the shadow
-        iconAnchor: [18, 18], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+        iconSize: [35, 35],
+        shadowSize: [40, 40],
+        iconAnchor: [18, 18],
+        shadowAnchor: [4, 62],
+        popupAnchor: [0, -20]
       })
       thumbIcon = window.L.icon({
         iconUrl: '../../static/thumbs.png',
         // shadowUrl: 'leaf-shadow.png',
-        iconSize: [35, 35], // size of the icon
-        shadowSize: [40, 40], // size of the shadow
-        iconAnchor: [18, 18], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+        iconSize: [35, 35],
+        shadowSize: [40, 40],
+        iconAnchor: [18, 18],
+        shadowAnchor: [4, 62],
+        popupAnchor: [0, -20]
+      })
+      nztaIcon = window.L.icon({
+        iconUrl: '../../static/thumbs.png',
+        // shadowUrl: 'leaf-shadow.png',
+        iconSize: [35, 35],
+        shadowSize: [40, 40],
+        iconAnchor: [18, 18],
+        shadowAnchor: [4, 62],
+        popupAnchor: [0, -20]
       })
 
       initMap()
@@ -61,16 +68,22 @@
         for (let data of response.data) {
           // console.log(`Add marker ${data}`)
           let icon = accidentIcon
-          switch (data.reportType) {
-            case 'accident' :
-              icon = accidentIcon
-              break
-            case 'hazard' :
-              icon = hazardIcon
-              break
-            case 'thumbup' :
-              icon = thumbIcon
-              break
+
+          if (data.source === 'NZTA') {
+            icon = nztaIcon
+            break
+          } else {
+            switch (data.reportType) {
+              case 'accident' :
+                icon = accidentIcon
+                break
+              case 'hazard' :
+                icon = hazardIcon
+                break
+              case 'thumbup' :
+                icon = thumbIcon
+                break
+            }
           }
 
           const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon}).addTo(mymap)
