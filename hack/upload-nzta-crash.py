@@ -22,7 +22,7 @@ headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 # cyclist only, cyclist and pedestrian, cyclist and motor vehicle
 
 def filter(row) :
-    if getCyclingType(row) and row[3] == '2017':
+    if getCyclingType(row) and (row[3] == '2017' or row[3] == '2016'):
         return True
     return False
 
@@ -55,7 +55,7 @@ def csvToJsonApi(row):
         '_id': row[2],
         'source': 'NZTA',
         'reportType': 'incident',
-        'whenOccurred': row[3] + '-01-01T00:00:00.000+1200',
+        'whenOccurred': row[3] + '-02-01T00:00:00.000+1200',
         'weather': weather(row),
         'location': {"latitude": float(row[1]), "longitude": float(row[0]), "description": descriptionLoc(row)},
         'incident': {'type' : getCyclingType(row), 'criticality': 'crash', 'description': description(row)}
@@ -87,7 +87,7 @@ try:
                 count = count + 1
             except Exception as e:
                 print ('Error for line: ' + str(e))
-    print ('Filled the database with ' + str(count) + ' valid cycling crash on ' + str(totalCount) + ' data')
+    print ('Filled the database with ' + str(count) + ' valid on ' + str(totalCount) + ' data')
 
 except Exception as e:
     print('Exception: after ' + str(totalCount) + ' success : ' + str(e))

@@ -41,8 +41,10 @@
       .then(function (response) {
         // console.log(response)
         for (let data of response.data) {
-          console.log(`Add marker ${data.location.latitude}, ${data.location.longitude}`)
-          window.L.marker([data.location.latitude, data.location.longitude]).addTo(mymap)
+          // console.log(`Add marker ${data}`)
+          const marker = window.L.marker([data.location.latitude, data.location.longitude]).addTo(mymap)
+          const year = data.whenOccurred.substring(0, 4)
+          marker.bindPopup(`<b>${data.reportType}</b> occurred in ${year}</br>Source: ${data.source}`)
         }
       })
       .catch(function (error) {
@@ -65,5 +67,5 @@
 </script>
 
 <style scoped>
-  #incident-map { height: 400px; }
+  #incident-map { height: 600px; }
 </style>
