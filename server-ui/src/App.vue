@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer temporary v-model="sideNav">
+    <v-navigation-drawer absolute temporary v-model="sideNav">
       <v-list>
         <v-list-tile
           v-for="item in menuItems"
@@ -50,7 +50,7 @@
           logo: require('./assets/logo.png')
         },
         menuItems: [
-          {icon: require('./assets/accident.png'), title: 'Incidents', link: '/Incidents'},
+          {icon: require('./assets/thumbs.png'), title: 'Feedback', link: '/Incidents'},
           {icon: require('./assets/hazard.png'), title: 'Hazards', link: '/Hazards'}
         ]
       }

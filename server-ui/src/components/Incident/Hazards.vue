@@ -20,7 +20,7 @@
                 </v-card-title>
                 <v-card-actions>
                   <v-btn flat :to="'/hazards/' + hazard.id">
-                    <v-icon left light>arrow_forward</v-icon>
+                     <img :src="images.hazard"  alt="hazards" width='24px' height='24px' >
                     View hazard
                   </v-btn>
                 </v-card-actions>
@@ -35,6 +35,13 @@
 
 <script>
   export default {
+    data () {
+      return {
+        images: {
+          hazard: require('../../assets/hazard.png')
+        }
+      }
+    },
     computed: {
       hazards () {
         return this.$store.getters.loadedHazards
