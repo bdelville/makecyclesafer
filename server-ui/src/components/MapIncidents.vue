@@ -76,6 +76,7 @@
           if (data.source === 'NZTA') {
             icon = nztaIcon
             subtitle = `${data.incident.type}`
+            zIndexOffset = 10
           } else {
             switch (data.reportType) {
               case 'accident' :
@@ -98,6 +99,7 @@
           }
 
           const marker = window.L.marker([data.location.latitude, data.location.longitude], {icon, zIndexOffset}).addTo(markerGroup)
+          marker.setZIndexOffset(zIndexOffset)
           const year = data.whenOccurred.substring(0, 4)
           marker.bindPopup(`<b>${data.reportType}</b> occurred in ${year}<br/>${subtitle}</br>Source: ${data.source}`)
         }
